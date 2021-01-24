@@ -1,20 +1,35 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Modal, TouchableHighlight } from 'react-native'
+//import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class Login extends Component {
    state = {
       email: '',
       password: '',
-      modalVisible: false,
+      loginname: '',
+      error:''
+
    }
+
+   componentDidMount = () => AsyncStorage.getItem('name').then((value) => this.setState({ 'loginname': value }))
+
    handleEmail = (text) => {
       this.setState({ email: text })
    }
    handlePassword = (text) => {
       this.setState({ password: text })
    }
-   login = (email, pass) => {
+   handleLogin = (email, pass) => {
+      console.log('read:' + this.state.loginname )
       alert('email: ' + email + ' password: ' + pass)
+      if ((email ==="wmf") && (pass === "password")){
+         this.setState({ error: "" })
+         AsyncStorage.setItem('name', email);
+         //this.setState({ 'loginname': value });
+      }else {
+         this.setState({ error: "Incorrect email/password" })
+      }
    }
    showModal = () => {
       console.log(this.State.modalVisible);
@@ -52,38 +67,12 @@ class Login extends Component {
             <TouchableOpacity
                style={styles.submitButton}
                onPress={
-                  () => this.login(this.state.email, this.state.password)
+                  () => this.handleLogin(this.state.email, this.state.password)
                }>
                <Text style={styles.submitButtonText}> Submit </Text>
             </TouchableOpacity>
-
-            <TouchableHighlight
-               onPress={() => {
-                  this.showModal();
-               }}>
-               <Text>Show Modal</Text>
-            </TouchableHighlight>
-
-            <Modal
-               animationType="slide"
-               transparent
-               visible={this.state.modalVisible}
-               onRequestClose={() => {
-                  console.log('Modal has been closed.');
-               }}>
-               <View
-                  style={{
-                     flex: 1,
-                     alignItems: 'center',
-                     backgroundColor: 'gray',
-                     justifyContent: 'center',
-                     margin: 25,
-                  }}>
-                  <Text style={{ fontSize: 16, color: 'white' }}>
-                     This modal will close in Five Seconds..
-                  </Text>
-               </View>
-            </Modal>
+            <Text>{this.state.error}</Text>
+            <Text>{this.state.loginname}</Text>
 
 
          </View>
