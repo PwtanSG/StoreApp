@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import HomeScreen from './components/Home';
+import Home from './components/Home';
 import TravelScreen from './components/Travelx';
 import ContactScreen from './components/Contact';
 import ProductScreen from './components/Products';
@@ -15,8 +15,21 @@ import ModalScreen from './components/ModalComponent';
 import StartScreen from './components/Splashscreen'
 import Parent from "./components/ParentComponent"
 
+import SecondScreen from './components/SecondScreen'
+import FirstScreen from './components/FirstScreen'
+
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+function Home1() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="FirstScreen" component={FirstScreen} />
+      <Stack.Screen name="SecondScreen" component={SecondScreen} />
+    </Stack.Navigator>
+  );
+}
 
 class App extends Component {
   render() {
@@ -24,7 +37,7 @@ class App extends Component {
       <NavigationContainer>
         <Tab.Navigator>
           <Tab.Screen
-            name="Home" component={HomeScreen}
+            name="Home" component={Home1}
             options={{
               tabBarLabel: 'Home',
               tabBarIcon: ({ color, size }) => (

@@ -62,9 +62,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     pickerStyle: {
-        height: 50,
+        height: 60,
         width: "85%",
         color: '#344953',
         justifyContent: 'center',
+        borderColor: 'black'
     }
 })  

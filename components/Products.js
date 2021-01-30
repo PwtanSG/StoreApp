@@ -54,8 +54,8 @@ const Products = () => {
   }
 
   const onPressAddToCart = (item) => {
-    setSelectedId(item.id);
-    //Alert.alert('Add to cart button! item ' + item.id + "here")
+    //setSelectedId(item.id);
+    Alert.alert('Add to cart button! item ' + item.id + "here")
     //Alert.alert('state! selectd id :  ' + selectedId + "here")
   }
 
