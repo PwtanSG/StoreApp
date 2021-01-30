@@ -12,6 +12,8 @@ import ContactScreen from './components/Contact';
 import ProductScreen from './components/Products';
 import LoginScreen from './components/LoginPage';
 import ModalScreen from './components/ModalComponent';
+import StartScreen from './components/Splashscreen'
+import Parent from "./components/ParentComponent"
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();

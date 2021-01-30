@@ -6,6 +6,7 @@ import {
   SafeAreaView } from 'react-native';
 
 import Carousel from 'react-native-snap-carousel';
+
 const { width: screenWidth } = Dimensions.get('window')
 
 export default class Home extends React.Component {
@@ -69,8 +70,11 @@ export default class Home extends React.Component {
                   itemWidth={screenWidth}
                   renderItem={this._renderItem}
                   onSnapToItem = { index => this.setState({activeIndex:index}) } />
+            
             </View>
+            
           </SafeAreaView>
+          
         );
     }
 }

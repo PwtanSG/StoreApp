@@ -1,7 +1,7 @@
 import React, { Component } from 'react';  
 import { Platform, StyleSheet, View, Text,  
  Image, TouchableOpacity, Alert } from 'react-native';  
-import Header from './header'
+import Header from './HeaderComponent'
 
  export default class Startscreen extends Component{  
    constructor(){  
