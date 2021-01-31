@@ -15,31 +15,7 @@ import {
 import Header from './HeaderComponent';
 import { PRODUCTLIST } from '../shared/productlist';
 import PickerComp from './PickerComponent'
-
-//console.log(PRODUCTLIST)
-//const PRODUCTLIST1 = PRODUCTLIST.filter((prod)=>prod.id == 1)
-//console.log(PRODUCTLIST1)
-
-const onPressAddToCart = (item) => {
-  console.log(item.id)
-  Alert.alert('Add to cart button! item ' + item.id + "here")
-}
-
-
-
-const Item = ({ item, onPress, style }) => (
-
-  <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
-    <Text style={styles.title}>{item.name}</Text>
-    <Text style={styles.itemtext}>${item.price} {item.unit}</Text>
-    <Image source={item.src} style={{ alignSelf: 'center' }} resizeMode="stretch" />
-    <Button
-      onPress={() => onPressAddToCart(item)}
-      title="Add to cart"
-    />
-  </TouchableOpacity>
-
-);
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Products = () => {
@@ -47,17 +23,66 @@ const Products = () => {
   const [count, setCount] = useState(0);
   const [selectedId, setSelectedId] = useState(0);
   const [selectedCatId, setSelectedCatId] = useState('All');
+  const [ShopCart, setShopCart] = useState('');
 
   const onPressItem = (item) => {
     setSelectedId(item.id);
-    //Alert.alert('You clicked the item ' + item.id + "here")
   }
 
   const onPressAddToCart = (item) => {
-    //setSelectedId(item.id);
-    Alert.alert('Add to cart button! item ' + item.id + "here")
+    //Alert.alert('Add to cart button! item ' + item.id + "here")
     //Alert.alert('state! selectd id :  ' + selectedId + "here")
+    //let chkcart =  getCart('Cart',item.name);
+    //setAsyncStorage('Cart',item.name)
+    console.log("add to cart : " + item.name);
+
+    AsyncStorage.getItem("Cart").then((value) => {
+      //this.setState({ "ShopCart": value });
+      setShopCart(value)
+    })
+      .then(res => {
+        console.log("in cart " + ShopCart);
+        setAsyncStorage ("Cart",item.name)
+        //do something else
+      });
+
   }
+
+  const getCart = async (key, name) => {
+    let isCartExist = 0;
+    try {
+      const value = await AsyncStorage.getItem('Cart');
+      if (value !== null) {
+        // We have data!!
+        console.log('Cart');
+        console.log(value);
+        isCartExist = 1;
+        setAsyncStorage(key, name)
+      } else {
+        if (value === null) {
+          console.log('Cart - null');
+          setAsyncStorage(key, name)
+        }
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.log(error)
+    }
+    //return isCartExist;
+  };
+
+
+  const setAsyncStorage = async (key, name) => {
+    try {
+      await AsyncStorage.setItem(
+        key,
+        name
+      );
+    } catch (error) {
+      // Error saving data
+    }
+  };
+
 
   const onPressBack = () => {
     setSelectedId(0);
@@ -75,57 +100,62 @@ const Products = () => {
     console.log(childPickerData + ":" + catSelected)
   }
 
-  var PRODUCTLISTSHOW = PRODUCTLIST 
-  if (selectedId !== 0){
-    PRODUCTLISTSHOW = PRODUCTLIST.filter((prod)=>prod.id === selectedId);
+  var PRODUCTLISTSHOW = PRODUCTLIST
+  if (selectedId !== 0) {
+    //if selectedId non zero, filter object by product id
+    PRODUCTLISTSHOW = PRODUCTLIST.filter((prod) => prod.id === selectedId);
     console.log(selectedId)
-  }else{
-    if (selectedCatId === 'All'){
+  } else { //objects to display all products
+    if (selectedCatId === 'All') {
       PRODUCTLISTSHOW = PRODUCTLIST;
-    }else{
-      PRODUCTLISTSHOW = PRODUCTLIST.filter((prod)=>prod.category === selectedCatId);
+    } else {
+      PRODUCTLISTSHOW = PRODUCTLIST.filter((prod) => prod.category === selectedCatId);
     }
   }
 
+  //render of an item
   const renderItem = ({ item }) => {
     const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#ffffff";
     let showBackbtn;
-    let showProductDescription; 
-    
-    if (selectedId !== 0){
+    let showProductDescription;
+
+    //if selectedId is non zero = user selected, show product with details description + back btn
+    if (selectedId !== 0) {
       console.log('selected : ' + selectedId);
       showProductDescription = <Text style={styles.itemtext}>{item.description}</Text>
-      showBackbtn = <Button onPress={onPressBack} title="Back"/>
-    }else{
-      
+      showBackbtn = <Button onPress={onPressBack} title="Back" />
+    } else {
+
     }
-    
+
     return (
       <TouchableOpacity onPress={() => onPressItem(item)} style={[styles.item, backgroundColor]}>
         <Text style={styles.title}>{item.name}</Text>
         <Text style={styles.itemtext}>${item.price} {item.unit}</Text>
         <Image source={item.src} style={{ alignSelf: 'center' }} resizeMode="stretch" />
         {showProductDescription}
-        <Text>{}</Text>
+        <Text>{ }</Text>
         <Button
           onPress={() => onPressAddToCart(item)}
           title="Add to cart"
         />
-        <Text>{}</Text>
+        <Text>{ }</Text>
         {showBackbtn}
       </TouchableOpacity>
     );
   };
 
+  //init a call back from child component picker, to get user's selected category
   let showCatPicker;
-  if (selectedId === 0){
-    showCatPicker = <PickerComp parentCallback = {callbackPickerFunction}/>
+  if (selectedId === 0) {
+    showCatPicker = <PickerComp parentCallback={callbackPickerFunction} />
   }
 
   return (
     <View style={styles.container}>
       <Header title="Shopping" />
       <SafeAreaView style={styles.container}>
+        <Text>{}</Text>
         {showCatPicker}
         <FlatList
           data={PRODUCTLISTSHOW}

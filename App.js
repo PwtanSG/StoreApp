@@ -6,17 +6,19 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
+//import IconBadge from 'react-native-icon-badge';
 import Home from './components/Home';
 import TravelScreen from './components/Travelx';
 import ContactScreen from './components/Contact';
 import ProductScreen from './components/Products';
 import LoginScreen from './components/LoginPage';
 import ModalScreen from './components/ModalComponent';
-import StartScreen from './components/Splashscreen'
-import Parent from "./components/ParentComponent"
-
-import SecondScreen from './components/SecondScreen'
-import FirstScreen from './components/FirstScreen'
+import StartScreen from './components/Splashscreen';
+import Parent from "./components/ParentComponent";
+import ShoppingCart from './components/ShopCart'
+import SecondScreen from './components/SecondScreen';
+import FirstScreen from './components/FirstScreen';
+import ThirdScreen from './components/ThirdScreen';
 
 
 const Stack = createStackNavigator();
@@ -27,12 +29,23 @@ function Home1() {
     <Stack.Navigator>
       <Stack.Screen name="FirstScreen" component={FirstScreen} />
       <Stack.Screen name="SecondScreen" component={SecondScreen} />
+      <Stack.Screen name="ThirdScreen" component={ThirdScreen} />
     </Stack.Navigator>
   );
 }
 
 class App extends Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = { 
+      cartCount: 0 
+    }
+  }
+
+  
   render() {
+
     return (
       <NavigationContainer>
         <Tab.Navigator>
@@ -64,17 +77,18 @@ class App extends Component {
               ),
               showIcon: true
             }}
+            
           />
-          <Tab.Screen name="Travel" component={LoginScreen}
+          <Tab.Screen name="Cart" component={ShoppingCart}
             options={{
-              tabBarLabel: 'Travel',
+              tabBarLabel: 'Cart',
               tabBarIcon: ({ color, size }) => (
-                <Icon name="user" size={24} color="black" />
+                <Icon name="shopping-cart" size={24} color="black" />
               ),
               showIcon: true
             }}
           />
-          <Tab.Screen name="Account" component={ModalScreen}
+          <Tab.Screen name="Account" component={LoginScreen}
             options={{
               tabBarLabel: 'Account',
               tabBarIcon: ({ color, size }) => (
