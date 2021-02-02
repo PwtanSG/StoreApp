@@ -30,47 +30,30 @@ const Products = () => {
   }
 
   const onPressAddToCart = (item) => {
-    //Alert.alert('Add to cart button! item ' + item.id + "here")
-    //Alert.alert('state! selectd id :  ' + selectedId + "here")
-    //let chkcart =  getCart('Cart',item.name);
-    //setAsyncStorage('Cart',item.name)
+
     console.log("add to cart : " + item.name);
+    var cartArray = [];
+    //var objSelected = { id: item.id, name: item.name, qty: 1 };
+
 
     AsyncStorage.getItem("Cart").then((value) => {
       //this.setState({ "ShopCart": value });
-      setShopCart(value)
+      if (value != null){
+        console.log("then:" + value)
+        cartArray=JSON.parse(value);
+      }else{
+        console.log("Null")
+      }
     })
       .then(res => {
-        console.log("in cart " + ShopCart);
-        setAsyncStorage ("Cart",item.name)
-        //do something else
+          console.log("in res " + ShopCart);
+          cartArray.push({ id: item.id, name: item.name, qty: 1, src: item.src, price: item.price, unit: item.unit });
+          setAsyncStorage("Cart", JSON.stringify(cartArray))
+        
       });
-
+    
+    
   }
-
-  const getCart = async (key, name) => {
-    let isCartExist = 0;
-    try {
-      const value = await AsyncStorage.getItem('Cart');
-      if (value !== null) {
-        // We have data!!
-        console.log('Cart');
-        console.log(value);
-        isCartExist = 1;
-        setAsyncStorage(key, name)
-      } else {
-        if (value === null) {
-          console.log('Cart - null');
-          setAsyncStorage(key, name)
-        }
-      }
-    } catch (error) {
-      // Error retrieving data
-      console.log(error)
-    }
-    //return isCartExist;
-  };
-
 
   const setAsyncStorage = async (key, name) => {
     try {
@@ -155,7 +138,7 @@ const Products = () => {
     <View style={styles.container}>
       <Header title="Shopping" />
       <SafeAreaView style={styles.container}>
-        <Text>{}</Text>
+        <Text>{ }</Text>
         {showCatPicker}
         <FlatList
           data={PRODUCTLISTSHOW}
