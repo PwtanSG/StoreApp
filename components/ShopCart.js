@@ -11,10 +11,15 @@ import {
   FlatList,
   SafeAreaView,
   Alert,
+  Dimensions
 } from 'react-native';
 import Header from './HeaderComponent';
 import { PRODUCTLIST } from '../shared/productlist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+const screenWidth = Math.round(Dimensions.get('window').width);
+const screenHeight = Math.round(Dimensions.get('window').height);
 
 class ShoppingCart extends Component {
 
@@ -24,10 +29,21 @@ class ShoppingCart extends Component {
     this.state = {
       shopCartItem: [],
       cartReady: false,
- 
+      screenWidth: "",
+      screenHeight: "",
+      //cartTotalPrice: this.getCartTotalPrice(),
+
     }
-    this.onPressItemUp = this.onPressItemUp.bind(this);
-    this.onPressItemDown = this.onPressItemDown.bind(this);
+    this.onPressItemQtyUp = this.onPressItemQtyUp.bind(this);
+    this.onPressItemQtyDown = this.onPressItemQtyDown.bind(this);
+  }
+
+  getScreenSize = () => {
+    const screenWidth = Math.round(Dimensions.get('window').width);
+    const screenHeight = Math.round(Dimensions.get('window').height);
+    this.setState({ screenWidth: screenWidth, screenHeight: screenHeight })
+    //console.log(screenWidth)
+    //console.log(screenHeight)
   }
 
   retrieveData = async () => {
@@ -64,8 +80,9 @@ class ShoppingCart extends Component {
   };
 
   componentDidMount() {
-    console.log("component did mount")
-    console.log(this.state.shopCartItem)
+    console.log("component did mount");
+    this.getScreenSize();
+    console.log(this.state.shopCartItem);
   }
 
   componentWillUnmount() {
@@ -84,9 +101,8 @@ class ShoppingCart extends Component {
     );
   };
 
-  onPressItemUp = (item,evt) => {
+  onPressItemQtyUp = (item, evt) => {
     evt.preventDefault();
-    //console.log(item.name + " Up Qty " + item.qty);
 
     //get index of the cart item to update qty
     var getCartItemIndex = this.state.shopCartItem.findIndex(getCartItem => getCartItem.id === item.id)
@@ -96,37 +112,97 @@ class ShoppingCart extends Component {
     var tempQtyArray = this.state.shopCartItem;
     //console.log(tempQtyArray[getCartItemIndex].qty)
     tempQtyArray[getCartItemIndex].qty = tempQtyArray[getCartItemIndex].qty + 1;
-    //console.log(tempQtyArray[getCartItemIndex].qty)
-    //});
-    //this.setState({shopCartItem: tempQtyArray})
-    //console.log(tempQtyArray)
+
     //update cartitems in localstorage 
     this.setAsyncStorage("Cart", JSON.stringify(tempQtyArray))
   }
 
-  onPressItemDown = (item) => {
-    //console.log(item.name + " Up Qty " );
+  onPressItemQtyDown = (item, evt) => {
+    evt.preventDefault();
+    //get index of the cart item to update qty
+    var getCartItemIndex = this.state.shopCartItem.findIndex(getCartItem => getCartItem.id === item.id)
+
+    //temp storage to update qty for updating to local storage
+    var tempQtyArray = this.state.shopCartItem;
+    if (tempQtyArray[getCartItemIndex].qty > 1) {
+      tempQtyArray[getCartItemIndex].qty = tempQtyArray[getCartItemIndex].qty - 1;
+      //update cartitems in localstorage 
+      this.setAsyncStorage("Cart", JSON.stringify(tempQtyArray))
+    }
   }
+
+  onConfirmDeleteOk = (prodId) => {
+    //console.log("Ok pressed" + prodId)
+    var getCartItemIndex = this.state.shopCartItem.findIndex(getCartItem => getCartItem.id === prodId)
+    if (getCartItemIndex > -1) {
+      console.log("Ok delete " + prodId + " " + getCartItemIndex)
+      //temp storage to update qty for updating to local storage - remove the item from cart
+      var tempQtyArray = this.state.shopCartItem;
+      tempQtyArray.splice(getCartItemIndex, 1);
+      this.setAsyncStorage("Cart", JSON.stringify(tempQtyArray)) //write to local storage
+    } else {
+      console.log("item not found in cart " + getCartItemIndex)
+    }
+
+  }
+
+  showConfirmDelete(prodId, prodName, evt) {
+    evt.preventDefault();
+    Alert.alert(
+      'Confirm?',
+      "Do you want to remove " + prodName + " from cart?",
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'OK', onPress: () => this.onConfirmDeleteOk(prodId) },
+      ]
+    );
+  }
+
+  getCartTotalPrice = () => {
+    var tempCartArray = this.state.shopCartItem;
+    var totalprice = 0.00;
+
+    tempCartArray.forEach((item, index) => {
+      totalprice += parseFloat(item.price) * parseInt(item.qty);
+    });
+    totalprice = (totalprice).toFixed(2);                    //fix at 2 decimal point
+    //console.log(totalprice);
+    return totalprice;
+  }
+
 
   renderItem = ({ item }) => {
     const backgroundColor = "#ffffff"
 
     return (
       <View style={{ flex: 1, flexDirection: 'row' }}>
-        <View style={{ width: 200, height: 200 }}>
+
+        <View style={{ width: this.state.screenWidth / 2, height: this.state.screenWidth / 2 }}>
           <Image source={item.src} style={{ width: 180, height: 160, alignSelf: 'center' }} />
         </View>
 
-        <View style={{ width: 200, height: 200 }} >
+        <View style={{ width: this.state.screenWidth / 2, height: this.state.screenWidth / 2 }} >
           <Text style={styles.title}>{item.name}</Text>
           <Text style={styles.itemtext}>${item.price} {item.unit}</Text>
           <View style={{ flexDirection: "row" }}>
             <View style={styles.buttonStyle}>
-            <Button title={"+"} onPress={e => this.onPressItemUp(item, e)}/>
+              <Button title={" + "} onPress={e => this.onPressItemQtyUp(item, e)} />
             </View>
-            <Text style={styles.itemtext}>{"  "}{item.qty} {"  "}{}</Text>
+            <Text style={styles.itemtext}>{""}{item.qty} {""}</Text>
             <View style={styles.buttonStyle}>
-              <Button title={"-"} onPress={this.onPressItemDown(item)}/>
+              <Button title={" - "} onPress={e => this.onPressItemQtyDown(item, e)} />
+            </View>
+          </View>
+          <View style={{ flexDirection: "row" }}>
+            <View style={{ width: this.state.screenWidth / 3 }}>
+
+            </View>
+            <View style={styles.buttonStyle}>
+              <Icon name="trash-o" size={24} color="grey" onPress={e => this.showConfirmDelete(item.id, item.name, e)} />
             </View>
           </View>
         </View>
@@ -137,6 +213,7 @@ class ShoppingCart extends Component {
 
   render() {
     this.retrieveData()
+    var pricetotal = this.getCartTotalPrice();
 
     if (this.state.shopCartItem.length > 0) {
       return (
@@ -153,6 +230,8 @@ class ShoppingCart extends Component {
             /*ItemSeparatorComponent={this.renderSeparator}*/
             keyExtractor={(item, index) => index.toString()}
           />
+          <Text>Total - {this.state.shopCartItem.length}</Text>
+          <Text>Price - {pricetotal}</Text>
         </View>
       );
     } else {
