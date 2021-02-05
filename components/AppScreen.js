@@ -7,19 +7,18 @@ import { createStackNavigator } from '@react-navigation/stack';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 //import IconBadge from 'react-native-icon-badge';
-import Home from './components/Home';
-import ContactScreen from './components/Contact';
-import ProductScreen from './components/Products';
-import LoginScreen from './components/LoginPage';
-import ModalScreen from './components/ModalComponent';
-import StartScreen from './components/Splashscreen';
-import Parent from "./components/ParentComponent";
-import ShoppingCart from './components/ShopCart';
-import DeliveryDetails from './components/DeliveryDetails';
-import SecondScreen from './components/SecondScreen';
-import FirstScreen from './components/FirstScreen';
-import ThirdScreen from './components/ThirdScreen';
-import AppScreen from './components/AppScreen'
+import Home from './Home';
+import ContactScreen from './Contact';
+import ProductScreen from './Products';
+import LoginScreen from './LoginPage';
+//import ModalScreen from './components/ModalComponent';
+//import StartScreen from './components/Splashscreen';
+//import Parent from "./components/ParentComponent";
+import ShoppingCart from './ShopCart';
+import DeliveryDetails from './DeliveryDetails';
+import SecondScreen from './SecondScreen';
+import FirstScreen from './FirstScreen';
+import ThirdScreen from './ThirdScreen';
 
 
 const Stack = createStackNavigator();
@@ -102,7 +101,7 @@ function ShopCartScreen1() {
 
 
 
-class App extends Component {
+class AppScreen extends Component {
 
   constructor(props) {
     super(props);
@@ -110,19 +109,8 @@ class App extends Component {
       cartCount: 0,
       cartItems: '',
       cartArr: [],
-      timePassed: false,
     }
     //this.ShopCartScreen=this.ShopCartScreen.bind(this);
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setTimePassed();
-    }, 3000);
-  }
-
-  setTimePassed() {
-    this.setState({ timePassed: true });
   }
 
   retrieveData = async () => {
@@ -140,14 +128,63 @@ class App extends Component {
 
   render() {
 
-    if (!this.state.timePassed) {
-      return <StartScreen />;
-    } else {
-      return <AppScreen />;
-    }
+    return (
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen
+            name="Home" component={Home1}
+            options={{
+              tabBarLabel: 'Home',
+              tabBarIcon: ({ color, size }) => (
+                <Icon name="home" size={30} color="black" />
+              ),
+              showIcon: true
+            }}
+          />
+          <Tab.Screen
+            name="Products" component={ProductScreen}
+            options={{
+              tabBarLabel: 'Shop',
+              tabBarIcon: ({ color, size }) => (
+                <Icon name="shopping-basket" size={24} color="black" />
+              ),
+              showIcon: true
+            }}
+          />
+          <Tab.Screen name="Contact" component={ContactScreen}
+            options={{
+              tabBarLabel: 'Contract',
+              tabBarIcon: ({ color, size }) => (
+                <Icon name="user" size={24} color="black" />
+              ),
+              showIcon: true
+            }}
+
+          />
+          <Tab.Screen name="Cart" component={ShopCart1}
+            options={{
+              tabBarLabel: 'Cart',
+              tabBarIcon: ({ color, size }) => (
+                <Icon name="shopping-cart" size={24} color="black" />
+              ),
+              showIcon: true
+            }}
+          />
+          <Tab.Screen name="Account" component={LoginScreen}
+            options={{
+              tabBarLabel: 'Account',
+              tabBarIcon: ({ color, size }) => (
+                <Icon name="user-circle" size={24} color="black" />
+              ),
+              showIcon: true
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    );
   }
 }
 
 
 
-export default App;
+export default AppScreen;

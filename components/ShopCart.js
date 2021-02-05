@@ -232,6 +232,8 @@ class ShoppingCart extends Component {
           />
           <Text>Total - {this.state.shopCartItem.length}</Text>
           <Text>Price - {pricetotal}</Text>
+          <Button title="Check Out" onPress={() =>
+            this.props.navigation.navigate("Delivery")} />
         </View>
       );
     } else {

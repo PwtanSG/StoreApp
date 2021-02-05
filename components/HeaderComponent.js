@@ -1,6 +1,6 @@
 import React from 'react';
 import { View,Text,StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+//import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Header = ({title}) => {
     return (
@@ -18,9 +18,9 @@ Header.defaultProps = {
 
 const styles = StyleSheet.create({
     header : {
-        height: 60,
-        padding: 15,
-        backgroundColor : 'darkslateblue',
+        height: 50,
+        padding: 10,
+        backgroundColor : '#2196F3',
     },
     text: {
         color : '#ffffff',
