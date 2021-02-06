@@ -11,14 +11,15 @@ import Home from './Home';
 import ContactScreen from './Contact';
 import ProductScreen from './Products';
 import LoginScreen from './LoginPage';
-//import ModalScreen from './components/ModalComponent';
-//import StartScreen from './components/Splashscreen';
-//import Parent from "./components/ParentComponent";
 import ShoppingCart from './ShopCart';
 import DeliveryDetails from './DeliveryDetails';
 import SecondScreen from './SecondScreen';
 import FirstScreen from './FirstScreen';
 import ThirdScreen from './ThirdScreen';
+import AccountScreen from './AccountScreen';
+import NotificationSettings from './NotificationSettings';
+import PrivacySettings from './PrivacySettings';
+
 
 
 const Stack = createStackNavigator();
@@ -63,7 +64,7 @@ function ShopCart1() {
         component={ShoppingCart}
         options={() => ({
           headerStyle: {
-            backgroundColor: '#2196F3',
+            backgroundColor: '#0A5FDC',
           },
           headerTintColor: '#fff',
         })}
@@ -75,7 +76,7 @@ function ShopCart1() {
           title: 'MyScreen',
           headerLeft: null,
           headerStyle: {
-            backgroundColor: '#2196F3',
+            backgroundColor: '#0A5FDC',
           },
           headerTintColor: '#fff',
         })}
@@ -84,22 +85,46 @@ function ShopCart1() {
   );
 }
 
+function Account() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="AccountScreen"
+        component={AccountScreen}
+        options={() => ({
+          title: 'Profile',
+          headerStyle: {
+            backgroundColor: '#0A5FDC',
+          },
+          headerTintColor: '#fff',
+        })}
+      />
+      <Stack.Screen
+        name="NotificationSettings"
+        component={NotificationSettings}
+        options={() => ({
+          title: 'Notifications settings',
+          headerStyle: {
+            backgroundColor: '#0A5FDC',
+          },
+          headerTintColor: '#fff',
+        })}
+      />
 
-function ShopCartScreen1() {
-  AsyncStorage.getItem("Cart").then((value) => {
-    //this.setState({ "ShopCart": value });
-    //setShopCart(value)
-    console.log(value)
-  })
-    .then(res => {
-      //console.log("in cart " + ShopCart);
-      //console.log(value)
-      //setAsyncStorage ("Cart",JSON.stringify(cartArray))
-      //do something else
-    });
+      <Stack.Screen
+        name="PrivacySettings"
+        component={PrivacySettings}
+        options={() => ({
+          title: 'Privacy settings',
+          headerStyle: {
+            backgroundColor: '#0A5FDC',
+          },
+          headerTintColor: '#fff',
+        })}
+      />
+    </Stack.Navigator>
+  );
 }
-
-
 
 class AppScreen extends Component {
 
@@ -110,7 +135,6 @@ class AppScreen extends Component {
       cartItems: '',
       cartArr: [],
     }
-    //this.ShopCartScreen=this.ShopCartScreen.bind(this);
   }
 
   retrieveData = async () => {
@@ -118,8 +142,8 @@ class AppScreen extends Component {
       const value = await AsyncStorage.getItem('Cart');
       if (value !== null) {
         // We have data!!
-        console.log("retrieve:")
-        console.log(value);
+        //console.log("retrieve:")
+        //console.log(value);
       }
     } catch (error) {
       // Error retrieving data
@@ -170,7 +194,7 @@ class AppScreen extends Component {
               showIcon: true
             }}
           />
-          <Tab.Screen name="Account" component={LoginScreen}
+          <Tab.Screen name="Account" component={Account}
             options={{
               tabBarLabel: 'Account',
               tabBarIcon: ({ color, size }) => (

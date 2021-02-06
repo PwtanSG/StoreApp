@@ -16,13 +16,13 @@ export default class App extends Component {
 
     sendBackData = () => {
         this.props.parentCallback(this.state.choosenIndex);
-        Alert.alert('Button with adjusted color pressed');
+        //Alert.alert('selected');
     }
 
     Update = (itemValue, itemPosition) =>{
         this.setState({ itemsel: itemValue, choosenIndex: itemPosition })
         //this.setState({ choosenIndex: itemPosition })
-        console.log("this")
+        //console.log("this")
         this.props.parentCallback(itemValue);
     }
         
@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
         width: "85%",
         color: '#344953',
         justifyContent: 'center',
-        borderColor: 'black'
+        borderColor: 'black',
+        fontSize: 24
     }
 })  

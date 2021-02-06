@@ -59,7 +59,7 @@ export default class Home extends React.Component {
 
     render() {
         return (
-          <SafeAreaView style={{flex: 1, backgroundColor:'rebeccapurple', paddingTop: 50, }}>
+          <SafeAreaView style={{flex: 1, backgroundColor:'#fff', paddingTop: 50, }}>
             <View style={{ flex: 1, flexDirection:'row', justifyContent: 'center', }}>
                 <Carousel
                   layout={"tinder"}

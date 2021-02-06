@@ -11,15 +11,15 @@ import {
   FlatList,
   SafeAreaView,
   Alert,
-  Dimensions
+  Dimensions,
+  ActivityIndicator
 } from 'react-native';
 import Header from './HeaderComponent';
-import { PRODUCTLIST } from '../shared/productlist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const screenWidth = Math.round(Dimensions.get('window').width);
-const screenHeight = Math.round(Dimensions.get('window').height);
+//const screenWidth = Math.round(Dimensions.get('window').width);
+//const screenHeight = Math.round(Dimensions.get('window').height);
 
 class ShoppingCart extends Component {
 
@@ -38,12 +38,11 @@ class ShoppingCart extends Component {
     this.onPressItemQtyDown = this.onPressItemQtyDown.bind(this);
   }
 
+  //get size of device
   getScreenSize = () => {
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
     this.setState({ screenWidth: screenWidth, screenHeight: screenHeight })
-    //console.log(screenWidth)
-    //console.log(screenHeight)
   }
 
   retrieveData = async () => {
@@ -82,7 +81,7 @@ class ShoppingCart extends Component {
   componentDidMount() {
     console.log("component did mount");
     this.getScreenSize();
-    console.log(this.state.shopCartItem);
+    //console.log(this.state.shopCartItem);
   }
 
   componentWillUnmount() {
@@ -182,7 +181,7 @@ class ShoppingCart extends Component {
       <View style={{ flex: 1, flexDirection: 'row' }}>
 
         <View style={{ width: this.state.screenWidth / 2, height: this.state.screenWidth / 2 }}>
-          <Image source={item.src} style={{ width: 180, height: 160, alignSelf: 'center' }} />
+          <Image source={item.src} style={{ width: 180, height: 160, alignSelf: 'center' }} PlaceholderContent={<ActivityIndicator />}/>
         </View>
 
         <View style={{ width: this.state.screenWidth / 2, height: this.state.screenWidth / 2 }} >
@@ -190,11 +189,11 @@ class ShoppingCart extends Component {
           <Text style={styles.itemtext}>${item.price} {item.unit}</Text>
           <View style={{ flexDirection: "row" }}>
             <View style={styles.buttonStyle}>
-              <Button title={" + "} onPress={e => this.onPressItemQtyUp(item, e)} />
+              <Button title={" + "} color="#0A5FDC" onPress={e => this.onPressItemQtyUp(item, e)} />
             </View>
             <Text style={styles.itemtext}>{""}{item.qty} {""}</Text>
             <View style={styles.buttonStyle}>
-              <Button title={" - "} onPress={e => this.onPressItemQtyDown(item, e)} />
+              <Button title={" - "} color="#0A5FDC" onPress={e => this.onPressItemQtyDown(item, e)} />
             </View>
           </View>
           <View style={{ flexDirection: "row" }}>
@@ -219,29 +218,23 @@ class ShoppingCart extends Component {
       return (
         <View style={styles.container}>
 
-          <Text>Length - {this.state.shopCartItem.length}</Text>
+          <Text style={styles.title}>No. of items - {this.state.shopCartItem.length}</Text>
           <FlatList
             data={this.state.shopCartItem}
-            /*renderItem={({ item }) =>
-              <Text style={styles.item}>{item.name} ${item.price} {item.unit}</Text>
-            }
-            */
             renderItem={this.renderItem}
-            /*ItemSeparatorComponent={this.renderSeparator}*/
             keyExtractor={(item, index) => index.toString()}
           />
-          <Text>Total - {this.state.shopCartItem.length}</Text>
-          <Text>Price - {pricetotal}</Text>
-          <Button title="Check Out" onPress={() =>
+          <Text style={styles.total}>Total Price - $ {pricetotal}</Text>
+          <Button title="Check Out" color="#0A5FDC" onPress={() =>
             this.props.navigation.navigate("Delivery")} />
         </View>
       );
     } else {
       return (
         <View style={styles.container}>
-          <Text>Length - {this.state.shopCartItem.length}</Text>
+          <Text style={styles.title}>No. of item(s) - {this.state.shopCartItem.length}</Text>
           <Text>{ }</Text>
-          <Text>You have no item yet. Start shopping now!</Text>
+          <Text style={styles.title}></Text>
         </View>
       );
     }
@@ -253,7 +246,7 @@ class ShoppingCart extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fffaf0',
+    backgroundColor: '#fff',
   },
   item: {
     padding: 20,
@@ -271,11 +264,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 
+  total: {
+    marginHorizontal: 10,
+    fontSize: 22,
+    backgroundColor: '#EFF7F8',
+  },
+
   buttonStyle: {
     marginHorizontal: 10,
     marginTop: 5,
     backgroundColor: '#ffffff'
   },
+
 });
 
 export default ShoppingCart;

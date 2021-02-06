@@ -39,7 +39,7 @@ class FirstScreen extends Component {
       <View style = { styles.MainContainer }>
         <Text style={{ fontSize: 20 }}>This is the Firstscrren page</Text>
         <Button title="Second" onPress={() =>
-          this.props.navigation.navigate("SecondScreen")} />
+          this.props.navigation.navigate("Home")} />
 
         <Text>{ }</Text>
         <Button title="Third" onPress={() =>

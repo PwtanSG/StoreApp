@@ -39,14 +39,14 @@ const Products = () => {
     AsyncStorage.getItem("Cart").then((value) => {
       //this.setState({ "ShopCart": value });
       if (value != null){
-        console.log("then:" + value)
+        //console.log("then:" + value)
         cartArray=JSON.parse(value);
       }else{
-        console.log("Null")
+        //console.log("Null")
       }
     })
       .then(res => {
-          console.log("in res " + ShopCart);
+          //console.log("in res " + ShopCart);
           cartArray.push({ id: item.id, name: item.name, qty: 1, src: item.src, price: item.price, unit: item.unit });
           setAsyncStorage("Cart", JSON.stringify(cartArray))
         
@@ -106,7 +106,7 @@ const Products = () => {
     if (selectedId !== 0) {
       console.log('selected : ' + selectedId);
       showProductDescription = <Text style={styles.itemtext}>{item.description}</Text>
-      showBackbtn = <Button onPress={onPressBack} title="Back" />
+      showBackbtn = <Button onPress={onPressBack} color="#0A5FDC" title="Back" />
     } else {
 
     }
@@ -121,6 +121,7 @@ const Products = () => {
         <Button
           onPress={() => onPressAddToCart(item)}
           title="Add to cart"
+          color="#0A5FDC"
         />
         <Text>{ }</Text>
         {showBackbtn}
@@ -154,7 +155,7 @@ const Products = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fffaf0',
+    backgroundColor: '#fff',
   },
   item: {
     padding: 20,
