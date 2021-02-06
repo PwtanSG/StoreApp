@@ -176,4 +176,26 @@ export const PRODUCTLIST =
       unit: '/ box (2Kg)',
       description: 'Frozen chicken drumstick packed in 2kg. Product from Malaysia.'
     },
+    {
+      id: 17,
+      name: 'Grounded Coffee',
+      image: '/images/coffee.png',
+      src: require('../images/coffee.png'),
+      category: 'Beverages',
+      label: 'Offer',
+      price: 10.95,
+      unit: '/ pack (275g)',
+      description: 'Aromatic arabica roasted coffee. Product from Kenya.'
+    },
+    {
+      id: 18,
+      name: 'Beer',
+      image: '/images/beer.png',
+      src: require('../images/beer.png'),
+      category: 'Beverages',
+      label: 'Hot',
+      price: 10.95,
+      unit: '/ bottle (275ml)',
+      description: 'Belgium brewed. Cool ice rich aftertaste. Product from Belgium.'
+    },
   ];

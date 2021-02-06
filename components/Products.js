@@ -16,14 +16,18 @@ import Header from './HeaderComponent';
 import { PRODUCTLIST } from '../shared/productlist';
 import PickerComp from './PickerComponent'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+//import SnackBar from 'react-native-snackbar-component'
+import SnackBar from 'rn-snackbar-component'
 
 const Products = () => {
 
   const [count, setCount] = useState(0);
   const [selectedId, setSelectedId] = useState(0);
   const [selectedCatId, setSelectedCatId] = useState('All');
-  const [ShopCart, setShopCart] = useState('');
+  //const [ShopCart, setShopCart] = useState('');
+  const [showSnackBar, setshowSnackBar] = useState(false);
+  const [on, setOn] = useState(false);
+  const [show, setShow] = useState(true);
 
   const onPressItem = (item) => {
     setSelectedId(item.id);
@@ -33,26 +37,23 @@ const Products = () => {
 
     console.log("add to cart : " + item.name);
     var cartArray = [];
-    //var objSelected = { id: item.id, name: item.name, qty: 1 };
-
-
+    
     AsyncStorage.getItem("Cart").then((value) => {
-      //this.setState({ "ShopCart": value });
-      if (value != null){
+      if (value != null) {
         //console.log("then:" + value)
-        cartArray=JSON.parse(value);
-      }else{
+        cartArray = JSON.parse(value);
+      } else {
         //console.log("Null")
       }
     })
       .then(res => {
-          //console.log("in res " + ShopCart);
-          cartArray.push({ id: item.id, name: item.name, qty: 1, src: item.src, price: item.price, unit: item.unit });
-          setAsyncStorage("Cart", JSON.stringify(cartArray))
-        
+        //console.log("in res " + ShopCart);
+        cartArray.push({ id: item.id, name: item.name, qty: 1, src: item.src, price: item.price, unit: item.unit });
+        setAsyncStorage("Cart", JSON.stringify(cartArray))
+
       });
     
-    
+
   }
 
   const setAsyncStorage = async (key, name) => {
@@ -66,9 +67,9 @@ const Products = () => {
     }
   };
 
-
   const onPressBack = () => {
     setSelectedId(0);
+    //setshowSnackBar(true);
   }
 
   const callbackPickerFunction = (childPickerData) => {
@@ -164,6 +165,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 22,
+    fontWeight: 'bold'
   },
 
   itemtext: {

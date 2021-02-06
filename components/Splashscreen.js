@@ -30,12 +30,11 @@ export default class Startscreen extends Component {
 
   render() {
 
-
     return (
       <View style={styles.MainContainer}>
         <View style={styles.SplashScreen_RootView}>
           <View style={styles.SplashScreen_ChildView}>
-            <Image source={{ uri: 'https://static.javatpoint.com/tutorial/react-native/images/react-native-tutorial.png' }}
+            <Image source={require('../images/icon_tran_200x200.png')}
               style={{ width: '100%', height: '100%', resizeMode: 'contain' }} />
           </View>
         </View>
@@ -63,11 +62,12 @@ const styles = StyleSheet.create(
       height: '100%',
     },
 
+    //00BCD4
     SplashScreen_ChildView:
     {
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#00BCD4',
+      backgroundColor: '#0A5FDC',
       flex: 1,
     },
   });  

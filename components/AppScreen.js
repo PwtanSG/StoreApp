@@ -7,18 +7,19 @@ import { createStackNavigator } from '@react-navigation/stack';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 //import IconBadge from 'react-native-icon-badge';
-import Home from './Home';
+import HomePage from './Home';
 import ContactScreen from './Contact';
 import ProductScreen from './Products';
 import LoginScreen from './LoginPage';
 import ShoppingCart from './ShopCart';
-import DeliveryDetails from './DeliveryDetails';
+import CheckoutOrder from './CheckoutOrder';
 import SecondScreen from './SecondScreen';
 import FirstScreen from './FirstScreen';
 import ThirdScreen from './ThirdScreen';
 import AccountScreen from './AccountScreen';
 import NotificationSettings from './NotificationSettings';
 import PrivacySettings from './PrivacySettings';
+import DealsScreen from './Deals';
 
 
 
@@ -29,11 +30,11 @@ function Home1() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="FirstScreen"
-        component={FirstScreen}
+        name="Home"
+        component={HomePage}
         options={() => ({
           headerStyle: {
-            backgroundColor: '#2196F3',
+            backgroundColor: '#0A5FDC',
           },
           headerTintColor: '#fff',
         })}
@@ -45,7 +46,7 @@ function Home1() {
           title: 'MyScreen',
           headerLeft: null,
           headerStyle: {
-            backgroundColor: '#2196F3',
+            backgroundColor: '#0A5FDC',
           },
           headerTintColor: '#fff',
         })}
@@ -70,10 +71,10 @@ function ShopCart1() {
         })}
       />
       <Stack.Screen
-        name="Delivery"
-        component={DeliveryDetails}
+        name="Checkout"
+        component={CheckoutOrder}
         options={() => ({
-          title: 'MyScreen',
+          title: 'Cart - Check Out',
           headerLeft: null,
           headerStyle: {
             backgroundColor: '#0A5FDC',
@@ -175,11 +176,11 @@ class AppScreen extends Component {
               showIcon: true
             }}
           />
-          <Tab.Screen name="Contact" component={ContactScreen}
+          <Tab.Screen name="Deals" component={DealsScreen}
             options={{
-              tabBarLabel: 'Contract',
+              tabBarLabel: 'Hot Deals',
               tabBarIcon: ({ color, size }) => (
-                <Icon name="user" size={24} color="black" />
+                <Icon name="fire" size={24} color="black" />
               ),
               showIcon: true
             }}

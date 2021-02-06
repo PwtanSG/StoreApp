@@ -1,11 +1,28 @@
 import React, { Component } from 'react';
-import { View, Text, Button, Image, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, Button, Image, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 //import { Avatar, ListItem } from 'react-native-elements';
 
 class Profile extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            menu: [
+                {
+                    id: 0,
+                    menuitem: 'Notifications',
+                },
+                {
+                    id: 1,
+                    menuitem: 'Privacy',
+                },
+                {
+                    id: 2,
+                    menuitem: 'Personal Details',
+                },
+            ]
+        }
+
         this.sendLogoutBackToParentData = this.sendLogoutBackToParentData.bind(this);
     }
 
@@ -14,32 +31,41 @@ class Profile extends Component {
         this.props.LogoutParentCallback("logout");
     }
 
-    onLogout = () => {
-        console.log("logout")
-        //this.props.navigation.navigate("SecondScreen")
-        //this.props.navigation.navigate("SecondScreen")
+    goToMenuItem = (item) => {
+        //alert(item.menuitem)
+        if (item.id === 0){
+            this.props.navigation.navigate("NotificationSettings")
+        }
+        if (item.id === 1){
+            this.props.navigation.navigate("PrivacySettings")
+        }
     }
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={styles.container1}>
+                <Text></Text>
                 <Image
-                    source={require('../images/avatar.png')}
-                    style={{ width: 200, height: 200, alignSelf: 'center' }}
+                    source={require('../images/profile-pix.png')}
+                    style={{ width: 160, height: 160, alignSelf: 'center' }}
                     PlaceholderContent={<ActivityIndicator />}
                 />
-                <Text style={styles.username}>Hi {this.props.loginname}!</Text>
-                <Text style={styles.username}>{ }</Text>
-                <Text style={styles.menutext}
-                    onPress={() => this.props.navigation.navigate("NotificationSettings")}>
-                    Notifications</Text>
-                <Text style={styles.menutext}
-                    onPress={() => this.props.navigation.navigate("PrivacySettings")}>
-                    Privacy</Text>
-                <Text style={styles.menutext}>Log out</Text>
-                <Text style={styles.username}>{ }</Text>
+                <Text style={styles.username}>{this.props.loginname}</Text>
+                <Text></Text>
+                {this.state.menu.map((item, index) => (
+                    <TouchableOpacity
+                        key={item.id}
+                        style={styles.container}
+                        onPress={() => this.goToMenuItem(item)}>
+                        <Text style={styles.text}>
+                            {item.menuitem}
+                        </Text>
+                    </TouchableOpacity>
+                ))
+                }
+                <Text></Text>
                 <Button title="Logout" color="#0A5FDC" onPress={() => this.sendLogoutBackToParentData()} />
-
+                <Text></Text>
             </View>
         )
     }
@@ -48,10 +74,11 @@ class Profile extends Component {
 export default Profile;
 
 const styles = StyleSheet.create({
-    container: {
+    container1: {
         paddingLeft: 20,
         paddingRight: 20,
         paddingTop: 23,
+        backgroundColor: '#fff',
 
     },
     input: {
@@ -83,4 +110,16 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         color: '#344953'
     },
+    container: {
+        padding: 10,
+        marginTop: 3,
+        backgroundColor: '#fff',
+        alignItems: 'flex-start',
+     },
+     text: {
+        fontSize: 22,
+        paddingTop: 10,
+        paddingLeft: 10,
+        color: '#344953'
+     }
 })

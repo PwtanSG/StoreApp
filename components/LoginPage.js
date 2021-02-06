@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Modal, TouchableHighlight } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button, Modal, TouchableHighlight, Image, ActivityIndicator } from 'react-native'
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -13,7 +13,8 @@ class Login extends Component {
          email: '',
          password: '',
          loginname: '',
-         error: ''
+         error: '',
+         //modalVisible: false
       }
       this.sendBackParentData = this.sendBackParentData.bind(this);
    }
@@ -58,6 +59,11 @@ class Login extends Component {
    render() {
       return (
          <View style={styles.container}>
+            <Image
+               source={require('../images/icon_tran_200x200.png')}
+               style={{ width: 160, height: 160, alignSelf: 'center' }}
+               PlaceholderContent={<ActivityIndicator />}
+            />
             <TextInput style={styles.input}
                underlineColorAndroid="transparent"
                placeholder="Email"
@@ -91,8 +97,8 @@ export default Login
 
 const styles = StyleSheet.create({
    container: {
-      paddingLeft:10,
-      paddingRight:10,
+      paddingLeft: 10,
+      paddingRight: 10,
       paddingTop: 23
    },
    input: {

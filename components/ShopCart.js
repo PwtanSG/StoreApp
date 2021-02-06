@@ -226,7 +226,7 @@ class ShoppingCart extends Component {
           />
           <Text style={styles.total}>Total Price - $ {pricetotal}</Text>
           <Button title="Check Out" color="#0A5FDC" onPress={() =>
-            this.props.navigation.navigate("Delivery")} />
+            this.props.navigation.navigate("Checkout")} />
         </View>
       );
     } else {
@@ -256,6 +256,7 @@ const styles = StyleSheet.create({
   title: {
     marginHorizontal: 10,
     fontSize: 22,
+    fontWeight: 'bold'
   },
 
   itemtext: {
@@ -265,9 +266,11 @@ const styles = StyleSheet.create({
   },
 
   total: {
+    padding: 5,
     marginHorizontal: 10,
     fontSize: 22,
     backgroundColor: '#EFF7F8',
+    fontWeight: 'bold'
   },
 
   buttonStyle: {

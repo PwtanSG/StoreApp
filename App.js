@@ -7,99 +7,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 //import IconBadge from 'react-native-icon-badge';
-import Home from './components/Home';
-import ContactScreen from './components/Contact';
-import ProductScreen from './components/Products';
-import LoginScreen from './components/LoginPage';
-import ModalScreen from './components/ModalComponent';
 import StartScreen from './components/Splashscreen';
-import Parent from "./components/ParentComponent";
-import ShoppingCart from './components/ShopCart';
-import DeliveryDetails from './components/DeliveryDetails';
-import SecondScreen from './components/SecondScreen';
-import FirstScreen from './components/FirstScreen';
-import ThirdScreen from './components/ThirdScreen';
 import AppScreen from './components/AppScreen'
 
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
-function Home1() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="FirstScreen"
-        component={FirstScreen}
-        options={() => ({
-          headerStyle: {
-            backgroundColor: '#2196F3',
-          },
-          headerTintColor: '#fff',
-        })}
-      />
-      <Stack.Screen
-        name="SecondScreen"
-        component={SecondScreen}
-        options={() => ({
-          title: 'MyScreen',
-          headerLeft: null,
-          headerStyle: {
-            backgroundColor: '#2196F3',
-          },
-          headerTintColor: '#fff',
-        })}
-      />
-      <Stack.Screen name="ThirdScreen" component={ThirdScreen} />
-    </Stack.Navigator>
-  );
-}
-
-
-function ShopCart1() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Cart"
-        component={ShoppingCart}
-        options={() => ({
-          headerStyle: {
-            backgroundColor: '#2196F3',
-          },
-          headerTintColor: '#fff',
-        })}
-      />
-      <Stack.Screen
-        name="Delivery"
-        component={DeliveryDetails}
-        options={() => ({
-          title: 'MyScreen',
-          headerLeft: null,
-          headerStyle: {
-            backgroundColor: '#2196F3',
-          },
-          headerTintColor: '#fff',
-        })}
-      />
-    </Stack.Navigator>
-  );
-}
-
-
-function ShopCartScreen1() {
-  AsyncStorage.getItem("Cart").then((value) => {
-    //this.setState({ "ShopCart": value });
-    //setShopCart(value)
-    console.log(value)
-  })
-    .then(res => {
-      //console.log("in cart " + ShopCart);
-      //console.log(value)
-      //setAsyncStorage ("Cart",JSON.stringify(cartArray))
-      //do something else
-    });
-}
-
 
 
 class App extends Component {
