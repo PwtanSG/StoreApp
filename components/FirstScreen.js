@@ -43,7 +43,7 @@ class FirstScreen extends Component {
 
         <Text>{ }</Text>
         <Button title="Third" onPress={() =>
-          this.props.navigation.navigate("ThirdScreen")} />
+          this.props.navigation.navigate("InfoScreen")} />
         {
           (this.state.isVisible === true) ? Splash_Screen : null
         }

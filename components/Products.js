@@ -11,23 +11,23 @@ import {
   FlatList,
   SafeAreaView,
   Alert,
+  Modal,
+  TouchableHighlight,
 } from 'react-native';
 import Header from './HeaderComponent';
 import { PRODUCTLIST } from '../shared/productlist';
 import PickerComp from './PickerComponent'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-//import SnackBar from 'react-native-snackbar-component'
-import SnackBar from 'rn-snackbar-component'
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 const Products = () => {
 
   const [count, setCount] = useState(0);
   const [selectedId, setSelectedId] = useState(0);
   const [selectedCatId, setSelectedCatId] = useState('All');
-  //const [ShopCart, setShopCart] = useState('');
-  const [showSnackBar, setshowSnackBar] = useState(false);
-  const [on, setOn] = useState(false);
-  const [show, setShow] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+
 
   const onPressItem = (item) => {
     setSelectedId(item.id);
@@ -35,9 +35,15 @@ const Products = () => {
 
   const onPressAddToCart = (item) => {
 
+    setModalVisible(!modalVisible);
+    setTimeout(() => {
+      setModalVisible(false);
+    }, 3000);
+
     console.log("add to cart : " + item.name);
     var cartArray = [];
-    
+
+
     AsyncStorage.getItem("Cart").then((value) => {
       if (value != null) {
         //console.log("then:" + value)
@@ -52,7 +58,7 @@ const Products = () => {
         setAsyncStorage("Cart", JSON.stringify(cartArray))
 
       });
-    
+
 
   }
 
@@ -141,6 +147,20 @@ const Products = () => {
       <Header title="Shopping" />
       <SafeAreaView style={styles.container}>
         <Text>{ }</Text>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => { setModalVisible(false); }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Icon name="check-square" size={28} color="white" />
+              <Text style={styles.modalText}>Added to cart!</Text>
+            </View>
+          </View>
+        </Modal>
+
         {showCatPicker}
         <FlatList
           data={PRODUCTLISTSHOW}
@@ -171,6 +191,49 @@ const styles = StyleSheet.create({
   itemtext: {
     fontSize: 18,
   },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+
+  modalView: {
+    margin: 20,
+    backgroundColor: "#808080",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    opacity: 0.8,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 20,
+    color:"white",
+    fontWeight: "bold",
+  }
 });
 
 export default Products;

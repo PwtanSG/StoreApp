@@ -5,10 +5,12 @@ import {
   Dimensions,
   Text,
   View,
-  SafeAreaView
+  SafeAreaView,
+  ImageBackground
 } from 'react-native';
 
 import Carousel from 'react-native-snap-carousel';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const { width: screenWidth } = Dimensions.get('window')
 
@@ -28,7 +30,7 @@ export default class Home extends React.Component {
           src: require('../images/fresh.png'),
         },
         {
-          title: 'Vist our stores',
+          title: 'Visit our stores',
           text: 'Text 1',
           src: require('../images/store.png'),
         },
@@ -72,11 +74,23 @@ export default class Home extends React.Component {
         marginRight: 15,
       }}>
         <Text style={{ fontSize: 24 }}>{item.title}</Text>
-        <Image
+        <ImageBackground
           source={item.src}
-          style={{ width: 380, height: 220, alignSelf: 'center' }}
-          PlaceholderContent={<ActivityIndicator />}
-        />
+          style={{
+            height: 250,
+            width: 380,
+            position: 'relative',
+            top: 2,
+            left: 2
+          }}
+        >
+          <Icon name="chevron-left" size={38} color="#ffffff"
+            style={{ position: 'absolute', bottom: 125, left: 0 }}
+          />
+          <Icon name="chevron-right" size={38} color="#ffffff"
+            style={{ position: 'absolute', bottom: 125, left: 350 }}
+          />
+        </ImageBackground>
       </View>
 
     )

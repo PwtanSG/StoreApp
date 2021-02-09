@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -15,7 +15,7 @@ import ShoppingCart from './ShopCart';
 import CheckoutOrder from './CheckoutOrder';
 import SecondScreen from './SecondScreen';
 import FirstScreen from './FirstScreen';
-import ThirdScreen from './ThirdScreen';
+import InfoScreen from './InfoScreen';
 import AccountScreen from './AccountScreen';
 import NotificationSettings from './NotificationSettings';
 import PrivacySettings from './PrivacySettings';
@@ -26,7 +26,7 @@ import DealsScreen from './Deals';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function Home1() {
+function Home1({navigation}) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -37,21 +37,34 @@ function Home1() {
             backgroundColor: '#0A5FDC',
           },
           headerTintColor: '#fff',
+          headerRight: () => (
+            <Icon style={ [{paddingHorizontal:15}]} onPress={() =>
+              navigation.navigate("InfoScreen")} name="info-circle" size={24} color="white" />
+          ),
         })}
       />
       <Stack.Screen
         name="SecondScreen"
         component={SecondScreen}
         options={() => ({
-          title: 'MyScreen',
-          headerLeft: null,
+          title: 'About',
           headerStyle: {
             backgroundColor: '#0A5FDC',
           },
           headerTintColor: '#fff',
         })}
       />
-      <Stack.Screen name="ThirdScreen" component={ThirdScreen} />
+      <Stack.Screen 
+        name="InfoScreen" 
+        component={InfoScreen} 
+        options={() => ({
+          title: 'Information',
+          headerStyle: {
+            backgroundColor: '#0A5FDC',
+          },
+          headerTintColor: '#fff',
+        })}
+      />
     </Stack.Navigator>
   );
 }
